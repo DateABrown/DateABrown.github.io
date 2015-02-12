@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+  <body>
+    <div class="container" style="color:rgb(125,98,49);">
+    <div class="jumbotron" style="background:rgb(212,183,129);color:rgb(125,98,49);">
+    <h1>Brown Algorithm</h1>
+    <p>Calculate your brown id</p>
+  </div>
+      <form role="form">
+        <div class="form-group">
+          <label for="IQ">IQ: </label>
+          <input type="number" class="form-control" id="iq" placeholder="Enter iq">
+        </div>
+        <div class="form-group">
+          <label for="GPA">GPA: </label>
+          <input type="number" class="form-control" id="gpa" placeholder="Enter gpa">
+        </div>
+        <div class="form-group">
+          <label for="PR">Parent Rating </label>
+          <input type="number" class="form-control" id="pr" placeholder="Rate your parents on a brown scale of 1 (white chocolate) to 10 (cacao beans)">
+        </div>
+        <div class="form-group">
+          <label for="BS">Brown Spam: </label>
+          <input type="number" class="form-control" id="bs" placeholder="The amount of brown spam you have in your spam folder. Brown spam is spam sent by a brown person, regarding brown stuff">
+        </div>
+        <div class="checkbox">
+          <label><input id="random" type="checkbox">Screw this, give me a random value.</label>
+        </div>
+        <button type="submit" onclick="process();" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+    <script>
+      function process(){
+        var brownid = 0;
+        if(document.getElementById("random").checked){
+          brownid = Math.floor((Math.random() * 100) + 1);
+        }else{
+          brownid+=document.getElementById("iq").value/2.5;
+          brownid+=document.getElementById("gpa").value/1;
+          brownid+=document.getElementById("pr").value/1;
+          brownid+=document.getElementById("bs").value/1;
+        }
+        alert("Your brown id is "+brownid);
+      }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
