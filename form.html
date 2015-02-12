@@ -38,7 +38,7 @@
         if(document.getElementById("random").checked){
           brownid = Math.floor((Math.random() * 100) + 1);
         }else{
-          brownid+=document.getElementById("iq").value/2.5;
+          brownid+=Math.ceil(document.getElementById("iq").value/2.5);
           brownid+=document.getElementById("gpa").value/1;
           brownid+=document.getElementById("pr").value/1;
           brownid+=document.getElementById("bs").value/1;
