@@ -49,11 +49,13 @@ player2 = {
     velX: 0,
     color: getRandomColor(),
 };
+var all = [[4, 4], [4, -4], [-4, -4], [-4, 4]];
+var choice = all[Math.floor(Math.random() * all.length)];
 circle = {
     x: canvas.width/2-rectw/2,
     y: canvas.height/2-recth/2,
-    velY: 4,
-    velX: 4,
+    velY: choice[0],
+    velX: choice[1],
     color: getRandomColor(),
 }
 var x = 150,
@@ -115,7 +117,7 @@ function update() {
         }
     }
     if (keys[13]){
-      temp = temp2 = 4;
+      choice = all[Math.floor(Math.random() * all.length)];
       circle.x = canvas.width/2-rectw/2;
       circle.y = canvas.height/2-recth/2;
       circle.velX = circle.velY = 0;
@@ -125,8 +127,8 @@ function update() {
         circle = {
           x: canvas.width/2-rectw/2,
           y: canvas.height/2-recth/2,
-          velY: temp,
-          velX: temp2,
+          velY: choice[0],
+          velX: choice[1],
           color: getRandomColor(),
         }
       }
@@ -201,10 +203,9 @@ function updateCircle(player, play1, play2) {
             player.x = canvas.width/2-rectw/2;
             player.y = canvas.height/2-recth/2;
             
-            temp = temp2 = 4;
-            temp*=-1;
-            player.velY = temp;
-            player.velX = temp2;
+            choice = all[Math.floor(Math.random() * all.length)];
+            player.velY = choice[1];
+            player.velX = choice[0];
             score1++;
         }
     } else if (player.x <= 60) {
@@ -221,9 +222,10 @@ function updateCircle(player, play1, play2) {
             player.x = canvas.width/2-rectw/2;
             player.y = canvas.height/2-recth/2;
             
-            temp = temp2 = 4;
-            player.velY = temp;
-            player.velX = temp2;
+            choice = all[Math.floor(Math.random() * all.length)];
+            temp*=-1;
+            player.velY = choice[1];
+            player.velX = choice[0];
             score2++;
         }
     }
