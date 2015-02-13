@@ -49,17 +49,11 @@ player2 = {
     velX: 0,
     color: getRandomColor(),
 };
-multiply = [-1, 1];
-var choice = multiply[Math.floor(Math.random() * multiply.length)];
-temp = getRandomInt(2, 5);
-choice = multiply[Math.floor(Math.random() * multiply.length)];
-temp2 = choice*Math.sqrt(2*Math.pow(cspeed, 2)-Math.pow(temp, 2));
-temp*=-1;
 circle = {
     x: canvas.width/2-rectw/2,
     y: canvas.height/2-recth/2,
-    velY: temp,
-    velX: temp2,
+    velY: 4,
+    velX: 4,
     color: getRandomColor(),
 }
 var x = 150,
@@ -121,12 +115,7 @@ function update() {
         }
     }
     if (keys[13]){
-      multiply = [-1, 1];
-      var choice = multiply[Math.floor(Math.random() * multiply.length)];
-      temp = getRandomInt(2, 5);
-      choice = multiply[Math.floor(Math.random() * multiply.length)];
-      temp2 = choice*Math.sqrt(2*Math.pow(cspeed, 2)-Math.pow(temp, 2));
-      temp*=-1;
+      temp = temp2 = 4;
       circle.x = canvas.width/2-rectw/2;
       circle.y = canvas.height/2-recth/2;
       circle.velX = circle.velY = 0;
@@ -211,11 +200,8 @@ function updateCircle(player, play1, play2) {
         }else{
             player.x = canvas.width/2-rectw/2;
             player.y = canvas.height/2-recth/2;
-            multiply = [-1, 1];
-            var choice = multiply[Math.floor(Math.random() * multiply.length)];
-            temp = getRandomInt(2, 5);
-            choice = multiply[Math.floor(Math.random() * multiply.length)];
-            temp2 = choice*Math.sqrt(2*Math.pow(cspeed, 2)-Math.pow(temp, 2));
+            
+            temp = temp2 = 4;
             temp*=-1;
             player.velY = temp;
             player.velX = temp2;
@@ -234,12 +220,8 @@ function updateCircle(player, play1, play2) {
         }else{
             player.x = canvas.width/2-rectw/2;
             player.y = canvas.height/2-recth/2;
-            multiply = [-1, 1];
-            var choice = multiply[Math.floor(Math.random() * multiply.length)];
-            temp = getRandomInt(2, 5);
-            choice = multiply[Math.floor(Math.random() * multiply.length)];
-        temp2 = choice*Math.sqrt(2*Math.pow(cspeed, 2)-Math.pow(temp, 2));
-            temp*=-1;
+            
+            temp = temp2 = 4;
             player.velY = temp;
             player.velX = temp2;
             score2++;
