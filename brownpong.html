@@ -2,7 +2,6 @@
 <html>
 <body>
 
-<!-- Lets make a simple snake game -->
 <div id="gameArea">
   <canvas id="canvas"></canvas>
   <div id="statsPanel"></div>
@@ -51,11 +50,19 @@ player2 = {
 };
 var all = [[4, 4], [4, -4], [-4, -4], [-4, 4]];
 var choice = all[Math.floor(Math.random() * all.length)];
+var choice2 = all[Math.floor(Math.random() * all.length)];
 circle = {
-    x: canvas.width/2-rectw/2,
+    x: canvas.width/2+rectw/3.5,
     y: canvas.height/2-recth/2,
     velY: choice[0],
     velX: choice[1],
+    color: getRandomColor(),
+}
+circle2 = {
+    x: canvas.width/2-rectw/3.5,
+    y: canvas.height/2-recth/2,
+    velY: choice2[0],
+    velX: choice2[1],
     color: getRandomColor(),
 }
 var x = 150,
@@ -106,11 +113,17 @@ function update() {
           if(paused == false){
             tempX = circle.velX;
             tempY = circle.velY;
+            temp2X = circle2.velX;
+            temp2Y = circle2.velY;
             circle.velX = circle.velY = 0;
+            
+            circle2.velX = circle2.velY = 0;
             paused = true;
           }else{
             circle.velX = tempX;
             circle.velY = tempY;
+            circle2.velX = temp2X;
+            circle2.velY = temp2Y;
             paused = false;
           }
           ptime = getTime();
@@ -121,16 +134,25 @@ function update() {
       circle.x = canvas.width/2-rectw/2;
       circle.y = canvas.height/2-recth/2;
       circle.velX = circle.velY = 0;
+      circle2.velX = circle2.velY = 0;
 
       setTimeout(function(){
         score1=score2=0;
         circle = {
-          x: canvas.width/2-rectw/2,
+          x: canvas.width/2-rectw/3.5,
           y: canvas.height/2-recth/2,
           velY: choice[0],
           velX: choice[1],
           color: getRandomColor(),
         }
+        circle2 = {
+          x: canvas.width/2+rectw/3.5,
+          y: canvas.height/2-recth/2,
+          velY: choice2[0],
+          velX: choice2[1],
+          color: getRandomColor(),
+        }
+        
       }
       , 3000);
     }
@@ -141,6 +163,8 @@ function update() {
       player1.color = getRandomColor();
       player2.color = getRandomColor();
       circle.color = getRandomColor();
+      
+      circle2.color = getRandomColor();
     }
     if (auto == false){
         if (keys[87]) {
@@ -155,7 +179,11 @@ function update() {
             }
         }
     }else{
-        player1.y = circle.y-recth/2;
+        if(circle.x < circle2.x){
+          player1.y = circle.y-recth/2;
+        }else{
+          player1.y = circle2.y-recth/2;
+        }
         player1.velY = 0;
     }
 
@@ -174,6 +202,8 @@ function update() {
     updatePlayer(player1);
     updatePlayer(player2);
     updateCircle(circle, player1, player2);
+    
+    updateCircle(circle2, player1, player2);
     setTimeout(update, 10);
     document.title = "Brown Pong: "+score1+", "+score2;
 }
@@ -198,6 +228,7 @@ function updateCircle(player, play1, play2) {
             col2 = getRandomColor();
             col3 = getRandomColor();
             audio.play();
+            console.log(Math.abs(Math.abs(play1.y+recth/2)-(player.y+5)));
 
         }else{
             player.x = canvas.width/2-rectw/2;
@@ -218,6 +249,7 @@ function updateCircle(player, play1, play2) {
             col2 = getRandomColor();
             col3 = getRandomColor();
             audio.play();
+            console.log(Math.abs(Math.abs(play1.y+recth/2)-(player.y+5)));
         }else{
             player.x = canvas.width/2-rectw/2;
             player.y = canvas.height/2-recth/2;
