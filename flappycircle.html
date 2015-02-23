@@ -1,0 +1,188 @@
+TODAY
+
+Youedited an item
+10:07 AM
+HTML
+flappycircle.html
+LAST WEEK
+
+Yourenamed an item
+Tue 3:18 PM
+HTML
+flappycircle.html
+tube.html
+
+Youedited an item
+Tue 3:17 PM
+HTML
+tube.html
+
+Youuploaded an item
+Feb 16
+HTML
+tube.html
+Show more activity
+2 GB used (0%)
+Buy more storage
+flappycircle.html
+Open with
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Jquery -->
+         <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+	</head>
+	<body>
+        <canvas id="canvas"></canvas>
+		<style>
+            html, body {
+                background:#000000;
+            }
+        
+        canvas {
+            background:#000000;
+            position:fixed;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            
+        }
+		</style>
+		<script>
+            var canvas = document.getElementById("canvas");
+            var dead = false;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight-50;
+            // Wall Object
+            function wall(x){
+                this.x = x;
+                this.width = 30;
+                this.y1 = 0;
+                this.height1 = Math.floor((Math.random() * Math.round(canvas.height*(3/5)-100)) + 100);
+                this.height2 = this.height1;
+                this.y2 = this.height2+Math.floor((Math.random() * 50) + 100);
+                this.color = 'rgb(69, 142, 150)';
+            }
+            walls = [new wall(canvas.width-30), new wall(canvas.width+canvas.width/3), new wall(canvas.width+2*canvas.width/3)]
+            var ctx = canvas.getContext("2d"),
+            radius = 15;
+            
+            var player1 = {
+                x: canvas.width/2-radius/2,
+                y: canvas.height/2-radius/2,
+                velY: 0,
+                color: 'rgb(28, 74, 79)',
+            }
+        var keys = [];
+        var gravity = 0.2,
+            fspeed = -5;
+        var wallspeed = 3.5,
+            score = 0,
+            scored = false;
+        var flap = new Audio('https://dl.dropboxusercontent.com/u/20875109/flappybirdsounds/sfx_wing.ogg'),
+            point = new Audio('https://dl.dropboxusercontent.com/u/20875109/flappybirdsounds/sfx_point.ogg'),
+            die = new Audio('https://dl.dropboxusercontent.com/u/20875109/flappybirdsounds/sfx_die.ogg'),
+            hit = new Audio('https://dl.dropboxusercontent.com/u/20875109/flappybirdsounds/sfx_hit.ogg');
+        function update() {
+            if (keys[32] && dead == false) {
+                    player1.velY = fspeed;
+                    
+                    flap.play();
+                }
+            if (keys[32] && dead == true){
+                location.reload();
+            }
+            if(keys[38]){
+                wallspeed+=0.1;
+            }
+            
+            if(keys[40]){
+                wallspeed-=0.1;
+            }
+            // if(keys[80]){
+            //     if(wallspeed == 0){
+            //         wallspeed = 3.5;
+            //     }else{
+            //         wallspeed = 0;
+            //     }
+            // }
+            if(keys[13]){
+                location.reload();
+            }
+            // if(keys[38] || keys[40]){
+            //     gravity*=-1;
+            //     fspeed*=-1;
+            // }
+            player1.velY+=gravity;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.fill();
+            for(var i = 0;i<walls.length;i++){
+                mywall = walls[i];
+                updateWall(mywall);
+            }
+            updatePlayer(player1);
+            
+            ctx.fillStyle = 'rgb(3, 30, 33)';
+            ctx.fillRect(0, canvas.height-50, canvas.width, 50);
+            ctx.fillStyle = 'rgb(45, 181, 196)';
+            ctx.font = "30px Verdana";
+            ctx.fillText(score, canvas.width/2-25, canvas.height/2-10);
+            document.title = score+": FlappyCircle";
+            setTimeout(update, 10);
+        }
+        function updateWall(wall){
+            ctx.fillStyle = wall.color;
+            ctx.beginPath();
+            ctx.fillRect(wall.x, wall.y1, wall.width, wall.height1);
+            ctx.fillRect(wall.x, wall.y2, wall.width, 1000);
+            ctx.fill();
+            if(wall.x >= -30+wallspeed){
+                wall.x-=wallspeed;
+            }else{
+                wall.x = canvas.width;
+                wall.height1 = Math.floor((Math.random() * Math.round(canvas.height*(3/5))) + 1);
+                wall.height2 = wall.height1;
+                wall.y2 = wall.height2+Math.floor((Math.random() * 50) + 100);
+            }
+            if(wall.x <= player1.x+radius && wall.x >= player1.x-wall.width){
+                if((player1.y+radius >= wall.y2 || player1.y-radius <= wall.height2) && dead == false){
+                    wallspeed = 0;
+                    dead = true;
+                    hit.play();
+                    player1.velY = fspeed;
+                    setTimeout(function(){die.play();},1000);
+                }else if(player1.x < wall.x+wallspeed && player1.x > wall.x){
+                    score++;
+                    point.play();
+                }
+            }else{
+            }
+        }
+        function updatePlayer(player) {
+                
+                player.y += player.velY;
+                if (player.y > (canvas.height-50)-radius) {
+                    player.y = (canvas.height-50)-radius;
+                } else if (player.y <= 15) {
+                    player.y = 15;
+                    player.velY = 0;
+                }
+                
+                ctx.fillStyle = player.color;
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        update();
+        document.body.addEventListener("keydown", function (e) {
+                                       keys[e.keyCode] = true;
+                                       });
+                                       document.body.addEventListener("keyup", function (e) {
+                                                                      keys[e.keyCode] = false;
+                                                                      });
+            </script>
+	</body>
+</html>
